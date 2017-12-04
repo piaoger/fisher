@@ -20,12 +20,12 @@ in a directory (make sure they're executable!):
 
 ```
 $ mkdir /srv/hooks
-$ cat > /srv/hooks/example-hook.sh << EOF
+$ cat > /srv/hooks/example-hook << EOF
 #!/bin/bash
 
 echo "I'm an hook!"
 EOF
-$ chmod +x /srv/hooks/example-hook.sh
+$ chmod +x /srv/hooks/example-hook
 ```
 
 Then, you start fisher and you're good to go!

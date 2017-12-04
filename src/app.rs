@@ -110,15 +110,17 @@ impl<'a> Fisher<'a> {
     }
 
     pub fn rate_limits_config(&mut self, config_string: &str) -> Result<()> {
-        let slash_pos = config_string.char_indices()
+        let slash_pos = config_string
+            .char_indices()
             .filter(|ci| ci.1 == '/')
             .map(|ci| ci.0)
             .collect::<Vec<_>>();
 
         if slash_pos.len() != 1 {
-            return Err(ErrorKind::InvalidRateLimitsConfig(
-                config_string.into()
-            ).into());
+            return Err(
+                ErrorKind::InvalidRateLimitsConfig(config_string.into())
+                    .into(),
+            );
         }
 
         let (requests, interval) = config_string.split_at(slash_pos[0]);

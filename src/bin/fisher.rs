@@ -139,7 +139,6 @@ fn print_err<T>(result: fisher::Result<T>) -> fisher::Result<T> {
     result
 }
 
-
 fn app() -> fisher::Result<()> {
     let signal_trap = signal::trap::Trap::trap(&[
         SIGINT,  // Interrupt the program
@@ -220,7 +219,7 @@ fn app() -> fisher::Result<()> {
         );
         ::std::process::exit(1);
     }
-    let mut app = app_result.unwrap();
+    let app = app_result.unwrap();
 
     println!(
         "{} on {}",
@@ -230,13 +229,12 @@ fn app() -> fisher::Result<()> {
 
     // Wait for signals
     loop {
+        // signal::trap::Trap::trap::wait(...) is only provided for Linux.
+        #[cfg(target_os = "linux")]
         match signal_trap.wait(Instant::now()) {
             Some(SIGINT) | Some(SIGTERM) => break,
             Some(SIGUSR1) => {
-                println!(
-                    "{} hooks list",
-                    Colour::Green.bold().paint("Reloading")
-                );
+                println!("{} hooks list", Colour::Green.bold().paint("Reloading"));
 
                 // Don't crash if the reload fails, just show errors
                 // No changes are applied if the reload fails
@@ -244,6 +242,7 @@ fn app() -> fisher::Result<()> {
             }
             _ => {}
         }
+
         ::std::thread::sleep(Duration::new(0, 100));
     }
 
