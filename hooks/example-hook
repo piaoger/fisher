@@ -1,3 +1,4 @@
 #!/bin/bash
-
+## Fisher: {"parallel": true}
+## Fisher-Standalone: {"secret": "123"}
 echo "I'm an hook!"
